@@ -101,7 +101,7 @@ resource "azurerm_network_security_group" "example" {
 }
 
 resource "azurerm_virtual_machine" "main" {
-  for_each = azurerm_network_interface.main
+  count                 = 3
   name                  = "${var.prefix}-vm-${each.key}"
   location              = azurerm_resource_group.example.location
   resource_group_name   = azurerm_resource_group.example.name
@@ -132,7 +132,7 @@ resource "azurerm_virtual_machine" "main" {
     environment = "staging"
   }
   lifecycle {
-    create_before_destroy = true
+    prevent_destroy = true
   }
 }
 
