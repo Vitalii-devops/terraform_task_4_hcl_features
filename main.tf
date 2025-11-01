@@ -11,10 +11,6 @@ provider "azurerm" {
   features {}
 }
 
-variable "prefix" {
-  default = "tfvmex"
-}
-
 resource "azurerm_resource_group" "example" {
   name     = "${var.prefix}-resources"
   location = "West Europe"
@@ -137,17 +133,3 @@ resource "azurerm_virtual_machine" "main" {
 }
 
 
-
-#OUTPUTS
-
-output "vm_name_upper" {
-  value = upper(azurerm_virtual_machine.main["nic-1"].name)
-}
-
-output "tags_joined" {
-  value = join(", ", values(values(azurerm_virtual_machine.main)[0].tags))
-}
-
-output "vm_ids" {
-  value = [for vm in azurerm_virtual_machine.main : vm.id]
-}
